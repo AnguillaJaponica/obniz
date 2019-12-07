@@ -1,0 +1,55 @@
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://obniz.io/js/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+</head>
+<body>
+<h3 id="bploading" style="text-align:center;">ロード中...</h3>
+<div id="OBNIZ_OUTPUT"></div><br/>
+
+<script src="https://unpkg.com/obniz@latest/obniz.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/obniz-parts-kits@0.14.2/iothome/index.js"></script>
+<script src="https://unpkg.com/obniz-parts-kits@0.14.2/airobot/index.js"></script>
+<script src="https://unpkg.com/obniz-parts-kits@0.14.2/ui/index.js"></script>
+<script src="https://unpkg.com/obniz-parts-kits@0.14.2/ai/howler2.1.2/howler.js"></script>
+
+<script src="https://unpkg.com/obniz-parts-kits@0.14.2/ai/opencv3.4/opencv.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.5"> </script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet@0.2.2"> </script>
+
+<script src="https://unpkg.com/obniz-parts-kits@0.14.2/ai/clmtrackr/clmtrackr.js"> </script>
+<script src="https://unpkg.com/obniz-parts-kits@0.14.2/ai/clmtrackr/emotion_classifier.js"> </script>
+<script src="https://unpkg.com/obniz-parts-kits@0.14.2/ai/clmtrackr/emotionmodel.js"> </script>
+<script src="https://unpkg.com/obniz-parts-kits@0.14.2/ai/clmtrackr/model_pca_20_svm.js"> </script>
+<script src="https://unpkg.com/obniz-parts-kits@0.14.2/ai/index.js"></script>
+
+
+<script>
+    $("#bploading").text("実行中");
+    (async function(){
+        var obniz, iothomekit;
+
+
+        obniz = new Obniz('5149-9965');
+        await obniz.connectWait();
+        iothomekit = obniz.wired("IoTHomeKit",{});
+        while (true) {
+            await ObnizUI.Util.wait(0);
+            if ((iothomekit.getProximity() == 'near')) {
+                iothomekit.flag('up');
+                obniz.display.print('welcome to sakanabacca')
+                await _ai.say('welcome to sakanabacca');
+            } else {
+                iothomekit.flag('down');
+            }
+        }
+
+    })();
+</script>
+</body>
+</html>
